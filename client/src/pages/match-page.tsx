@@ -118,11 +118,22 @@ export default function MatchPage() {
                 </AlertDescription>
               </Alert>
 
-              <Input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setSelectedFile(e.target.files?.[0] ?? null)}
-              />
+              <div className="space-y-2">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setSelectedFile(e.target.files?.[0] ?? null)}
+                />
+                {selectedFile && (
+                  <div className="rounded-md overflow-hidden w-32 h-32">
+                    <img 
+                      src={URL.createObjectURL(selectedFile)} 
+                      alt="Preview" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+              </div>
 
               {selectedFile && (
                 <Alert>
