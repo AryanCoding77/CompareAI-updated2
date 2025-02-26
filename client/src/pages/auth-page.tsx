@@ -110,15 +110,25 @@ function RegisterForm() {
     defaultValues: {
       username: "",
       password: "",
+      acceptPolicy: false,
     },
     mode: "onSubmit"
   });
 
+  const [, navigate] = useLocation();
+
   const onSubmit = async (data: any) => {
-    if (!data.username || !data.password) {
+    if (!data.username || !data.password || !data.acceptPolicy) {
+      if (!data.acceptPolicy) {
+        form.setError('acceptPolicy', {
+          type: 'manual',
+          message: 'You must accept the privacy policy to register'
+        });
+      }
       return;
     }
-    registerMutation.mutate(data);
+    const { acceptPolicy, ...submitData } = data;
+    registerMutation.mutate(submitData);
   };
 
   return (
@@ -144,6 +154,32 @@ function RegisterForm() {
           />
           {form.formState.errors.password && (
             <p className="text-sm text-red-500">{form.formState.errors.password.message}</p>
+          )}
+        </div>
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="acceptPolicy"
+              className="rounded border-gray-300 text-primary focus:ring-primary"
+              {...form.register("acceptPolicy")}
+            />
+            <label htmlFor="acceptPolicy" className="text-sm">
+              I accept the {" "}
+              <a 
+                href="/privacy-policy"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/privacy-policy");
+                }}
+                className="text-primary hover:underline"
+              >
+                privacy policy
+              </a>
+            </label>
+          </div>
+          {form.formState.errors.acceptPolicy && (
+            <p className="text-sm text-red-500">{form.formState.errors.acceptPolicy.message}</p>
           )}
         </div>
         <Button
