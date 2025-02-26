@@ -167,11 +167,24 @@ export default function HomePage() {
                 size="sm"
                 onClick={async () => {
                   if (confirm("Are you sure you want to delete all your matches? This cannot be undone.")) {
-                    await fetch("/api/matches", { 
-                      method: "DELETE",
-                      credentials: "include"
-                    });
-                    window.location.reload();
+                    try {
+                      const response = await fetch("/api/matches", { 
+                        method: "DELETE",
+                        credentials: "include"
+                      });
+                      if (!response.ok) throw new Error("Failed to delete matches");
+                      queryClient.invalidateQueries({ queryKey: ["/api/matches"] });
+                      toast({
+                        title: "Success",
+                        description: "All matches have been deleted",
+                      });
+                    } catch (error) {
+                      toast({
+                        title: "Error",
+                        description: "Failed to delete matches",
+                        variant: "destructive"
+                      });
+                    }
                   }
                 }}
               >
