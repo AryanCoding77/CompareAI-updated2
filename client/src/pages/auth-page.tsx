@@ -118,16 +118,6 @@ function RegisterForm() {
   const [, navigate] = useLocation();
 
   const onSubmit = async (data: any) => {
-    if (!data.username || !data.password) {
-      return;
-    }
-    if (!data.acceptPolicy) {
-      form.setError('acceptPolicy', {
-        type: 'manual',
-        message: 'You must accept the privacy policy to register'
-      });
-      return;
-    }
     const { acceptPolicy, ...submitData } = data;
     registerMutation.mutate(submitData);
   };
