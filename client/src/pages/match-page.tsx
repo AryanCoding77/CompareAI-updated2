@@ -205,19 +205,46 @@ export default function MatchPage() {
 
           {isCompleted && (
             <>
-              <Alert className={match.creatorScore === match.invitedScore ? "bg-blue-500/10" :
-                ((isCreator ? Number(match.creatorScore!) > Number(match.invitedScore!) : Number(match.invitedScore!) > Number(match.creatorScore!))
-                  ? "bg-green-500/10" : "bg-red-500/10")}>
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Results</AlertTitle>
-                <AlertDescription>
-                  {match.creatorScore === match.invitedScore
-                    ? "It's a tie!"
-                    : (isCreator ? Number(match.creatorScore!) > Number(match.invitedScore!) : Number(match.invitedScore!) > Number(match.creatorScore!))
-                      ? "You won!"
-                      : "Your friend won!"}
-                </AlertDescription>
-              </Alert>
+              <div className="space-y-4">
+                <Alert className={match.creatorScore === match.invitedScore ? "bg-blue-500/10" :
+                  ((isCreator ? Number(match.creatorScore!) > Number(match.invitedScore!) : Number(match.invitedScore!) > Number(match.creatorScore!))
+                    ? "bg-green-500/10" : "bg-red-500/10")}>
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Results</AlertTitle>
+                  <AlertDescription>
+                    {match.creatorScore === match.invitedScore
+                      ? "It's a tie!"
+                      : (isCreator ? Number(match.creatorScore!) > Number(match.invitedScore!) : Number(match.invitedScore!) > Number(match.creatorScore!))
+                        ? "You won!"
+                        : "Your friend won!"}
+                  </AlertDescription>
+                </Alert>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <h3 className="font-medium">Creator's Photo</h3>
+                    <div className="aspect-square rounded-lg overflow-hidden">
+                      <img 
+                        src={`data:image/jpeg;base64,${match.creatorPhoto}`}
+                        alt="Creator's photo"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <p className="text-sm text-center">Score: {formatScore(match.creatorScore)}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-medium">Challenger's Photo</h3>
+                    <div className="aspect-square rounded-lg overflow-hidden">
+                      <img 
+                        src={`data:image/jpeg;base64,${match.invitedPhoto}`}
+                        alt="Challenger's photo"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <p className="text-sm text-center">Score: {formatScore(match.invitedScore)}</p>
+                  </div>
+                </div>
+              </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center">
