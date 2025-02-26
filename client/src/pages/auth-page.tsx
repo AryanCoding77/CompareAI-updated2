@@ -111,12 +111,20 @@ function RegisterForm() {
       username: "",
       password: "",
     },
+    mode: "onSubmit"
   });
+
+  const onSubmit = async (data: any) => {
+    if (!data.username || !data.password) {
+      return;
+    }
+    registerMutation.mutate(data);
+  };
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit((data) => registerMutation.mutate(data))}
+        onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-4 mt-4"
       >
         <div className="space-y-2">
